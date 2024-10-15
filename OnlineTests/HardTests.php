@@ -6,7 +6,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 require_once ('../Source/HardFormat.php');
 
-$connection = new Irbis\Connection();
+$connection = new Nerpa\Connection();
 $connection->username = 'librarian';
 $connection->password = 'secret';
 $connection->database = 'IBIS';
@@ -14,7 +14,7 @@ $connection->workstation = 'C';
 
 if (!$connection->connect()) {
     echo "Не удалось подключиться!", PHP_EOL;
-    echo Irbis\describe_error($connection->lastError), PHP_EOL;
+    echo Nerpa\describe_error($connection->lastError), PHP_EOL;
     die(1);
 }
 
@@ -23,7 +23,7 @@ if ($maxMfn > 100) {
     $maxMfn = 100;
 }
 
-$formatter = new Irbis\HardFormat();
+$formatter = new Nerpa\HardFormat();
 
 for ($mfn = 1; $mfn < $maxMfn; $mfn++) {
     $record = $connection->readRecord($mfn);

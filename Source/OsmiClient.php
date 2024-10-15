@@ -3,7 +3,7 @@
 /** @noinspection PhpUnused */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 
-namespace Irbis;
+namespace Nerpa;
 
 /*
  * СЕРВИС OSMI CARDS
@@ -18,7 +18,7 @@ namespace Irbis;
 
 /**
  * Клиент сервиса карт лояльности OSMI cards.
- * @package Irbis
+ * @package Nerpa
  */
 final class OsmiClient
 {
@@ -322,6 +322,5 @@ final class OsmiClient
         $obj = array('registrations' => $cardNumbers);
         $this->call_api('POST', '/registration/deletedata', $obj);
     }
-
 
 } // class OsmiClient

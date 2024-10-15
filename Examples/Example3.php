@@ -5,7 +5,7 @@
 
 <?php
 
-require_once __DIR__ . '/../Source/PhpIrbis.php';
+require_once __DIR__ . '/../Source/Nerpa.php';
 
 //
 // Данный пример демонстрирует простую глобальную корректировку.
@@ -16,25 +16,25 @@ require_once __DIR__ . '/../Source/PhpIrbis.php';
 try {
 
     // Подключаемся к серверу
-    $connection = new Irbis\Connection();
+    $connection = new Nerpa\Connection();
     $connectString = 'host=127.0.0.1;user=librarian;password=secret;';
     $connection->parseConnectionString($connectString);
 
     if (!$connection->connect()) {
         echo '<h3 style="color: red;">Не удалось подключиться!</h3>';
-        echo '<p>', Irbis\describe_error($connection->lastError), '</p>';
+        echo '<p>', Nerpa\describe_error($connection->lastError), '</p>';
         die(1);
     }
 
     $statements = array(
-        new \Irbis\GblStatement('NEWMFN', "'TEST'"),
-        new \Irbis\GblStatement('ADD', '700', 'XXX', "'^AἈριστοτέλης'"),
-        new \Irbis\GblStatement('ADD', '200', 'XXX', "'^Aアリストテレス'"),
-        new \Irbis\GblStatement('ADD', '300', 'XXX', "'Пробная запись'"),
-        new \Irbis\GblStatement('ADD', '920', 'XXX', "'PAZK'"),
-        new \Irbis\GblStatement('END'),
+        new Nerpa\GblStatement('NEWMFN', "'TEST'"),
+        new Nerpa\GblStatement('ADD', '700', 'XXX', "'^AἈριστοτέλης'"),
+        new Nerpa\GblStatement('ADD', '200', 'XXX', "'^Aアリストテレス'"),
+        new Nerpa\GblStatement('ADD', '300', 'XXX', "'Пробная запись'"),
+        new Nerpa\GblStatement('ADD', '920', 'XXX', "'PAZK'"),
+        new Nerpa\GblStatement('END'),
     );
-    $settings = new \Irbis\GblSettings();
+    $settings = new Nerpa\GblSettings();
     $settings->mfnList = array(1);
     $settings->statements = $statements;
     $result = $connection->globalCorrection($settings);

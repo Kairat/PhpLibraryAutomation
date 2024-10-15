@@ -7,7 +7,7 @@
 
 <?php
 
-require_once __DIR__ . '/../Source/PhpIrbis.php';
+require_once __DIR__ . '/../Source/Nerpa.php';
 require_once __DIR__ . '/../Source/Search.php';
 require_once __DIR__ . '/../Source/Teapot.php';
 
@@ -24,19 +24,19 @@ require_once __DIR__ . '/../Source/Teapot.php';
 try {
 
     // Подключаемся к серверу
-    $connection = new Irbis\Connection();
+    $connection = new Nerpa\Connection();
     $connectString = 'host=127.0.0.1;user=librarian;password=secret;';
     $connection->parseConnectionString($connectString);
 
     if (!$connection->connect()) {
         echo '<h3 style="color: red;">Не удалось подключиться!</h3>';
-        echo '<p>', Irbis\describe_error($connection->lastError), '</p>';
+        echo '<p>', Nerpa\describe_error($connection->lastError), '</p>';
         die(1);
     }
 
     $expression = 'лед и пламя'; // запрос на естественном языке
 
-    $teapot = new Irbis\Teapot();
+    $teapot = new Nerpa\Teapot();
     $teapot->limit = 100; // ограничение на количество найденных записей
     $found = $teapot->search($connection, $expression);
 

@@ -2,7 +2,7 @@
 
 /** @noinspection PhpUnused */
 
-namespace Irbis;
+namespace Nerpa;
 
 require_once 'Search.php';
 

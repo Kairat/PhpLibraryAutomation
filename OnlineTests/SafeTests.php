@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 header('Content-Type: text/html; charset=utf-8');
 
-require_once ('../Source/PhpIrbis.php');
+require_once ('../Source/Nerpa.php');
 
 function dumpArray($arr) {
     echo "<ol>";
@@ -18,14 +18,14 @@ function dumpArray($arr) {
     echo "</ol>", PHP_EOL;
 }
 
-$connection = new Irbis\Connection();
+$connection = new Nerpa\Connection();
 $connection->username = 'librarian';
 $connection->password = 'secret';
 $connection->workstation = 'A';
 
 if (!$connection->connect()) {
     echo "Не удалось подключиться!", PHP_EOL;
-    echo Irbis\describe_error($connection->lastError), PHP_EOL;
+    echo Nerpa\describe_error($connection->lastError), PHP_EOL;
     die(1);
 }
 
@@ -114,9 +114,9 @@ $format = "'Ἀριστοτέλης: ', v200^a";
 $text = $connection->formatRecord($format, $mfn);
 echo '<p>Результат форматирования: ', $text, '</p>', PHP_EOL;
 
-$parameters = new Irbis\SearchParameters();
+$parameters = new Nerpa\SearchParameters();
 $parameters->expression = '"A=ПУШКИН$"';
-$parameters->format = Irbis\BRIEF_FORMAT;
+$parameters->format = Nerpa\BRIEF_FORMAT;
 $parameters->numberOfRecords = 5;
 $found = $connection->searchEx($parameters);
 if (!$found) {
@@ -135,14 +135,14 @@ dumpArray($postings);
 try {
     $tree = $connection->readTreeFile('3.IBIS.II.TRE');
     dumpArray($tree->roots);
-} catch (Irbis\IrbisException $e) {
+} catch (Nerpa\NerpaException $e) {
     echo $e;
 }
 
 try {
     $par = $connection->readParFile('1..IBIS.PAR');
     echo "<p><pre>$par</pre></p>", PHP_EOL;
-} catch (Irbis\IrbisException $e) {
+} catch (Nerpa\NerpaException $e) {
     echo $e;
 }
 
@@ -150,11 +150,11 @@ try {
     $opt = $connection->readOptFile('3.IBIS.WS31.OPT');
     echo "<p><pre>$opt</pre></p>", PHP_EOL;
     echo "<p>", $opt->resolveWorksheet('ASP'), "</p>", PHP_EOL;
-} catch (Irbis\IrbisException $e) {
+} catch (Nerpa\NerpaException $e) {
     echo $e;
 }
 
-$record = new Irbis\MarcRecord();
+$record = new Nerpa\MarcRecord();
 $field = $record->add(200);
 $field->add('a', 'Заглавие')
     ->add('e', 'Подзаголовочные')

@@ -6,7 +6,7 @@ class TeapotTest extends PHPUnit_Framework_TestCase
 {
     public function testBuildSearchExpression_1()
     {
-        $teapot = new Irbis\Teapot();
+        $teapot = new Nerpa\Teapot();
         $expected = '';
         $actual = $teapot->buildSearchExpression('concrete');
         $this->assertEquals($expected, $actual);

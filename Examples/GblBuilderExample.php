@@ -5,18 +5,18 @@
 
 <?php
 
-require_once __DIR__ . '/../Source/PhpIrbis.php';
+require_once __DIR__ . '/../Source/Nerpa.php';
 require_once __DIR__ . '/../Source/Gbl.php';
 
 //
 // Данный пример демонстрирует построение глобальной корректировки.
 //
 
-$gbl = new \Irbis\Gbl();
+$gbl = new Nerpa\Gbl();
 $gbl->parameter('mhr.mnu', 'Укажите место хранения')
 ->comment('Это комментарий в начале')
 ->newMfn("'TEST'",
-        (new \Irbis\Gbl())->add(700, "'^AἈριστοτέλης'")
+        (new Nerpa\Gbl())->add(700, "'^AἈριστοτέλης'")
         ->add(200, "'^Aアリストテレス'")
         ->add(300, "'Пробная запись'")
         ->add(920, "'PAZK'")

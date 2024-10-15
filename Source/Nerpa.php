@@ -4,7 +4,7 @@
 /** @noinspection PhpUnnecessaryLocalVariableInspection */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 
-namespace Irbis;
+namespace Nerpa;
 
 //
 // Простой клиент для АБИС ИРБИС64.
@@ -84,7 +84,7 @@ const GBL_REPEAT       = 'REPEAT'; ///< цикл из группы операт�
 const GBL_UNTIL        = 'UNTIL';  ///< закрывающий оператор для цикла
 const PUTLOG           = 'PUTLOG'; ///< формирование пользовательского протокола
 
-//Работа через WebToIrbisServer
+//Работа через WebServer
 const IRBIS_START_REQUEST = 'IRBIS_START_REQUEST'; //служебное слово для обозначения начала ответа/запроса
 const IRBIS_END_REQUEST = 'IRBIS_END_REQUEST'; //служебное слово для обозначения начала ответа/запроса
 
@@ -494,9 +494,9 @@ function codes_for_read_terms()
 } // function codes_for_read_terms
 
 /**
- * @brief Специфичное для ИРБИС исключение.
+ * @brief Специфичное для проекта исключение.
  */
-final class IrbisException extends \Exception
+final class NerpaException extends \Exception
 {
     /**
      * @brief Конструктор.
@@ -519,7 +519,7 @@ final class IrbisException extends \Exception
     {
         return __CLASS__ . ": [$this->code]: $this->message\n";
     } // function __toString
-} // class IrbisException
+} // class NerpaException
 
 /**
  * @brief Подполе записи. Состоит из кода и значения.
@@ -572,13 +572,13 @@ final class SubField
      *
      * @param bool $throw Бросать ли исключение при ошибке?
      * @return bool Результат верификации.
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function verify($throw = true)
     {
         $result = $this->code && $this->value;
         if (!$result && $throw) {
-            throw new IrbisException();
+            throw new NerpaException();
         }
 
         return $result;
@@ -843,7 +843,7 @@ final class RecordField
      *
      * @param bool $throw Бросать ли исключение при ошибке?
      * @return bool Результат верификации.
-     * @throws IrbisException Ошибка в структуре поля.
+     * @throws NerpaException Ошибка в структуре поля.
      */
     public function verify($throw = true)
     {
@@ -858,7 +858,7 @@ final class RecordField
         }
 
         if (!$result && $throw) {
-            throw new IrbisException();
+            throw new NerpaException();
         }
 
         return $result;
@@ -1953,7 +1953,7 @@ final class TreeFile
      * Разбор ответа сервера.
      *
      * @param array $lines Строки с ответом сервера.
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function parse(array $lines)
     {
@@ -1965,7 +1965,7 @@ final class TreeFile
         $currentLevel = 0;
         $line = $lines[0];
         if (self::countIndent($line) !== 0) {
-            throw new IrbisException();
+            throw new NerpaException();
         }
 
         $list[] = new TreeNode($line);
@@ -1977,7 +1977,7 @@ final class TreeFile
 
             $level = self::countIndent($line);
             if ($level > ($currentLevel + 1)) {
-                throw new IrbisException();
+                throw new NerpaException();
             }
 
             $currentLevel = $level;
@@ -3035,7 +3035,7 @@ final class ParFile
      * Разбор ответа сервера.
      *
      * @param array $lines Ответ сервера.
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function parse(array $lines)
     {
@@ -3047,7 +3047,7 @@ final class ParFile
 
             $parts = explode('=', $line, 2);
             if (count($parts) != 2) {
-                throw new IrbisException();
+                throw new NerpaException();
             }
 
             $key = trim($parts[0]);
@@ -3102,13 +3102,13 @@ final class OptLine
 
     /**
      * @param $text
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function parse($text)
     {
         $parts = preg_split("/\s+/", trim($text), 2, PREG_SPLIT_NO_EMPTY);
         if (count($parts) != 2) {
-            throw new IrbisException();
+            throw new NerpaException();
         }
 
         $this->pattern = $parts[0];
@@ -3177,12 +3177,12 @@ final class OptFile
      * Разбор ответа сервера.
      *
      * @param array $lines Строки OPT-файла.
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function parse(array $lines)
     {
         if (empty($lines) || count($lines) < 2)
-            throw new IrbisException();
+            throw new NerpaException();
 
         $this->worksheetTag = intval($lines[0]);
         $this->worksheetLength = intval($lines[1]);
@@ -3903,7 +3903,7 @@ final class Connection
     public $lastError = 0;
 
     /**
-     * @var bool Признак использования cgi (WebToIrbisServer)
+     * @var bool Признак использования cgi (WebServer)
      */
     public $webServer = false;
 	
@@ -4645,7 +4645,7 @@ final class Connection
      * Разбор строки подключения.
      *
      * @param string $connectionString Строка подключения.
-     * @throws IrbisException Ошибка в структуре строки подключения.
+     * @throws NerpaException Ошибка в структуре строки подключения.
      */
     public function parseConnectionString($connectionString)
     {
@@ -4702,7 +4702,7 @@ final class Connection
                     break;
 
                 default:
-                    throw new IrbisException("Unknown key $name");
+                    throw new NerpaException("Unknown key $name");
             }
         }
     } // function parseConnectionString
@@ -4781,7 +4781,7 @@ final class Connection
      * @param string $specification Спецификация файла.
      * @return bool|OptFile OPT-файл
      * либо признак сбоя операции.
-     * @throws IrbisException Ошибка в структуре OPT-файла.
+     * @throws NerpaException Ошибка в структуре OPT-файла.
      */
     public function readOptFile($specification)
     {
@@ -4801,7 +4801,7 @@ final class Connection
      * @param string $specification Спецификация файла.
      * @return bool|ParFile PAR-файл
      * либо признак сбоя операции.
-     * @throws IrbisException Ошибка в структуре PAR-файла.
+     * @throws NerpaException Ошибка в структуре PAR-файла.
      */
     public function readParFile($specification)
     {
@@ -5107,7 +5107,7 @@ final class Connection
      * @param string $specification Спецификация файла.
      * @return bool|TreeFile TRE-файл
      * либо признак сбоя операции.
-     * @throws IrbisException Ошибка в структуре TRE-файла.
+     * @throws NerpaException Ошибка в структуре TRE-файла.
      */
     public function readTreeFile($specification)
     {
@@ -5164,13 +5164,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return IniFile Полученный INI-файл.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireIniFile($specification)
     {
         $lines = $this->readTextLines($specification);
         if (!$lines)
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         $result = new IniFile();
         $result->parse($lines);
@@ -5183,13 +5183,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return MenuFile Полученный MNU-файл.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireMenuFile($specification)
     {
         $lines = $this->readTextLines($specification);
         if (!$lines)
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         $result = new MenuFile();
         $result->parse($lines);
@@ -5202,13 +5202,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return OptFile Полученный OPT-файл.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireOptFile($specification)
     {
         $lines = $this->readTextLines($specification);
         if (!$lines)
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         $result = new OptFile();
         $result->parse($lines);
@@ -5221,13 +5221,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return ParFile Полученный PAR-файл.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireParFile($specification)
     {
         $lines = $this->readTextLines($specification);
         if (!$lines)
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         $result = new ParFile();
         $result->parse($lines);
@@ -5240,13 +5240,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return string Текст полученного файла.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireTextFile($specification)
     {
         $result = $this->readTextFile($specification);
         if (!$result || is_null_or_empty($result))
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         return $result;
     } // function requireTextFile
@@ -5256,13 +5256,13 @@ final class Connection
      *
      * @param string $specification Спецификация файла.
      * @return TreeFile Полученный TRE-файл.
-     * @throws IrbisException Файл не найден.
+     * @throws NerpaException Файл не найден.
      */
     public function requireTreeFile($specification)
     {
         $lines = $this->readTextLines($specification);
         if (!$lines)
-            throw new IrbisException("File not found: " . $specification);
+            throw new NerpaException("File not found: " . $specification);
 
         $result = new TreeFile();
         $result->parse($lines);
@@ -5461,13 +5461,13 @@ final class Connection
     /**
      * Бросает исключение, если произошла ошибка
      * при выполнении последней операции.
-     * @throws IrbisException Обнаружена ошибка,
+     * @throws NerpaException Обнаружена ошибка,
      * выброшено исключение.
      */
     public function throwOnError()
     {
         if ($this->lastError < 0)
-            throw new IrbisException($this->lastError);
+            throw new NerpaException($this->lastError);
     } // function throwOnError
 
     /**
@@ -5777,12 +5777,12 @@ final class UI
      * Конструктор.
      *
      * @param Connection $connection Активное (!) подключение к серверу.
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function __construct(Connection $connection)
     {
         if (!$connection->isConnected())
-            throw new IrbisException();
+            throw new NerpaException();
 
         $this->connection = $connection;
     }
@@ -5792,14 +5792,14 @@ final class UI
      *
      * @param string $class
      * @param string $selected
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function listDatabases($class = '', $selected = '')
     {
         $dbnnamecat = $this->connection->iniFile->getValue('Main', 'DBNNAMECAT', 'dbnam3.mnu');
         $databases = $this->connection->listDatabases('1..' . $dbnnamecat);
         if (!$databases)
-            throw new IrbisException();
+            throw new NerpaException();
 
         $classText = '';
         if ($class) {
@@ -5820,7 +5820,7 @@ final class UI
      * Получение сценариев поиска.
      *
      * @return array
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function getSearchScenario()
     {
@@ -5829,7 +5829,7 @@ final class UI
         $fileName = $ini->getValue("MAIN", 'SearchIni'); // ???
         $section = $ini->findSection("SEARCH");
         if (!$section) {
-            throw new IrbisException();
+            throw new NerpaException();
         }
         $result = SearchScenario::parse($ini);
 
@@ -5869,7 +5869,7 @@ final class UI
         echo "</select>" . PHP_EOL;
     } // function listSearchScenario
 
-} // class IrbisUI
+} // class UI
 
 /**
  * Запись в XRF-файле. Содержит информацию о смещении записи
@@ -5922,13 +5922,13 @@ final class XrfFile
     /**
      * XrfFile constructor.
      * @param $filename
-     * @throws IrbisException
+     * @throws NerpaException
      */
     public function __construct($filename)
     {
         $this->file = fopen($filename, 'rb');
         if (!$this->file) {
-            throw new IrbisException("Can't open " . $filename);
+            throw new NerpaException("Can't open " . $filename);
         }
     } // function __construct
 

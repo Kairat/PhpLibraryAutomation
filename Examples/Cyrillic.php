@@ -5,7 +5,7 @@
 
 <?php
 
-require_once __DIR__ . '/../Source/PhpIrbis.php';
+require_once __DIR__ . '/../Source/Nerpa.php';
 
 //
 // Пароли и логины пользователей могут содержать
@@ -15,7 +15,7 @@ require_once __DIR__ . '/../Source/PhpIrbis.php';
 try {
 
     // Подключаемся к серверу
-    $connection = new Irbis\Connection();
+    $connection = new Nerpa\Connection();
     $connection->host = '127.0.0.1';
     $connection->username = 'БабаЯга';
     $connection->password = 'против!';
@@ -23,7 +23,7 @@ try {
 
     if (!$connection->connect()) {
         echo '<h3 style="color: red;">Не удалось подключиться!</h3>';
-        echo '<p>', Irbis\describe_error($connection->lastError), '</p>';
+        echo '<p>', Nerpa\describe_error($connection->lastError), '</p>';
         die(1);
     }
 

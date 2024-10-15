@@ -3,7 +3,7 @@
 /** @noinspection PhpUnused */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 
-namespace Irbis;
+namespace Nerpa;
 
 //
 // Простой REST API клиент

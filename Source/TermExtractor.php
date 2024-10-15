@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 
-require_once "PhpIrbis.php";
+require_once "Nerpa.php";
 
 /**
  * Search expression builder.
@@ -21,9 +21,9 @@ final class TermExtractor
 
     /**
      * TermExtractor constructor.
-     * @param Irbis\Connection $_connection
+     * @param Nerpa\Connection $_connection
      */
-    public function __construct(Irbis\Connection $_connection)
+    public function __construct(Nerpa\Connection $_connection)
     {
         $this->_connection = $_connection;
 
@@ -32,10 +32,10 @@ final class TermExtractor
 
     /**
      * Extract terms from the record.
-     * @param Irbis\MarcRecord $record
+     * @param Nerpa\MarcRecord $record
      * @return array
      */
-    public function ExtractTerms(Irbis\MarcRecord $record)
+    public function ExtractTerms(Nerpa\MarcRecord $record)
     {
         $result = array();
         return $result;

@@ -3,13 +3,13 @@
 /** @noinspection PhpUnused */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 
-namespace Irbis;
+namespace Nerpa;
 
-require_once __DIR__ . '/PhpIrbis.php';
+require_once __DIR__ . '/Nerpa.php';
 
 /**
  * Class Gbl Построитель глобальной корректировки (ГК).
- * @package Irbis
+ * @package Nerpa
  */
 final class Gbl
 {

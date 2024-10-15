@@ -1,11 +1,11 @@
 <?php
 
-require_once '../Source/PhpIrbis.php';
+require_once '../Source/Nerpa.php';
 
 class RecordFieldTest extends PHPUnit_Framework_TestCase {
 
     public function testClone_1() {
-        $first = new RecordField(300, 'Hello');
+        $first = new Nerpa\RecordField(300, 'Hello');
         $second = clone $first;
         $this->assertEquals($first->tag, $second->tag);
         $this->assertEquals($first->value, $second->value);
@@ -13,7 +13,7 @@ class RecordFieldTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testClone_2() {
-        $first = new RecordField();
+        $first = new Nerpa\RecordField();
         $second = clone $first;
         $this->assertEquals($first->tag, $second->tag);
         $this->assertEquals($first->value, $second->value);
@@ -21,13 +21,13 @@ class RecordFieldTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAdd_1() {
-        $field = new RecordField(200);
+        $field = new Nerpa\RecordField(200);
         $field->add('a', 'SubA');
         $this->assertEquals(1, count($field->subfields));
     }
 
     public function testClear_1() {
-        $field = new RecordField(200);
+        $field = new Nerpa\RecordField(200);
         $field->add('a', 'SubA');
         $field->clear();
         $this->assertEquals($field->value, '');
@@ -35,7 +35,7 @@ class RecordFieldTest extends PHPUnit_Framework_TestCase {
     }
 
     function getField_1() {
-        $field = new RecordField(461);
+        $field = new Nerpa\RecordField(461);
         $field->add('1', '2001#');
         $field->add('a', 'Златая цепь');
         $field->add('e', 'Записки. Повести. Рассказы');
@@ -45,7 +45,7 @@ class RecordFieldTest extends PHPUnit_Framework_TestCase {
     }
 
     function getField_2() {
-        $field = new RecordField(461);
+        $field = new Nerpa\RecordField(461);
         $field->add('1', '2001#');
         $field->add('a', 'Златая цепь');
         $field->add('e', 'Записки. Повести. Рассказы');
@@ -58,7 +58,7 @@ class RecordFieldTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetEmbeddedFields_1() {
-        $field = new RecordField(200);
+        $field = new Nerpa\RecordField(200);
         $embedded = $field->getEmbeddedFields();
         $this->assertEquals(0, count($embedded));
     }

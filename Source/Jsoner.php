@@ -6,19 +6,19 @@
 // Работает с сервером ИРБИС64 2014 и выше.
 //
 
-use Irbis\Connection;
-use Irbis\DatabaseInfo;
-use Irbis\FoundLine;
-use Irbis\IrbisException;
-use Irbis\MarcRecord;
-use Irbis\MenuFile;
-use Irbis\OptFile;
-use Irbis\RawRecord;
-use Irbis\SearchParameters;
-use Irbis\SearchScenario;
-use Irbis\VersionInfo;
+use Nerpa\Connection;
+use Nerpa\DatabaseInfo;
+use Nerpa\FoundLine;
+use Nerpa\NerpaException;
+use Nerpa\MarcRecord;
+use Nerpa\MenuFile;
+use Nerpa\OptFile;
+use Nerpa\RawRecord;
+use Nerpa\SearchParameters;
+use Nerpa\SearchScenario;
+use Nerpa\VersionInfo;
 
-require_once __DIR__ . '/PhpIrbis.php';
+require_once __DIR__ . '/Nerpa.php';
 
 $result = null;
 
@@ -67,14 +67,14 @@ function db_info()
 function get_connection()
 {
     $result = new Connection();
-    $result->host = getenv ('IRBIS_HOST') ?: '127.0.0.1';
-    $result->port = (int) (getenv ('IRBIS_PORT') ?: '6666');
-    $result->username = getenv ('IRBIS_USER') ?: 'librarian';
-    $result->password = getenv ('IRBIS_PASSWORD') ?: 'secret';
-    $result->database = getenv ('IRBIS_DATABASE)') ?: 'IBIS';
+    $result->host = getenv ('NERPA_HOST') ?: '127.0.0.1';
+    $result->port = (int) (getenv ('NERPA_PORT') ?: '6666');
+    $result->username = getenv ('NERPA_USER') ?: 'librarian';
+    $result->password = getenv ('NERPA_PASSWORD') ?: 'secret';
+    $result->database = getenv ('NERPA_DATABASE)') ?: 'IBIS';
     if (!$result->connect()) {
         echo '<h3 style="color: red;">Не удалось подключиться!</h3>';
-        echo '<p>', Irbis\describe_error($result->lastError), '</p>';
+        echo '<p>', Nerpa\describe_error($result->lastError), '</p>';
         die(1);
     }
     return $result;
@@ -169,8 +169,8 @@ function read_opt()
     $spec = $_GET['spec'];
     try {
         $result = $connection->readOptFile($spec);
-    } catch (IrbisException $e) {
-        $result = new Irbis\OptFile();
+    } catch (NerpaException $e) {
+        $result = new Nerpa\OptFile();
     }
     $connection->disconnect();
     return $result;

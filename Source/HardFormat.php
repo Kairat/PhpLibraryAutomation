@@ -1,14 +1,13 @@
 <?php
 
-namespace Irbis;
+namespace Nerpa;
 
 //
-// Простой захардкоженный форматтер для ИРБИС64.
+// Простой захардкоженный форматтер.
 // Требует PHP 5.4 или выше.
-// Работает с сервером ИРБИС64 2014 и выше.
 //
 
-require_once __DIR__ . '/PhpIrbis.php';
+require_once __DIR__ . '/Nerpa.php';
 
 /**
  * Доставание последнего не-пробельного символа из строки.
@@ -211,7 +210,7 @@ function _fm4($field, $code1, $code2, $code3, $code4) {
 
 /**
  * Простой захардкоженный форматтер для ИРБИС64.
- * @package Irbis
+ * @package Nerpa
  */
 final class HardFormat {
     private $_record;

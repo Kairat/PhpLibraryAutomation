@@ -3,11 +3,11 @@
 /** @noinspection PhpUnused */
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 
-namespace Irbis;
+namespace Nerpa;
 
 /**
  * Search expression builder.
- * @package Irbis
+ * @package Nerpa
  */
 final class Search
 {

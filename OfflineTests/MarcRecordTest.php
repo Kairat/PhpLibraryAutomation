@@ -1,12 +1,12 @@
 <?php
 
-require_once '../Source/PhpIrbis.php';
+require_once '../Source/Nerpa.php';
 
 class MarcRecordTest extends PHPUnit_Framework_TestCase
 {
     public function testFm_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100");
         $record->add(200)
             ->add('a', "Заглавие")
@@ -31,7 +31,7 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testFma_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100");
         $record->add(200)
             ->add('a', "Заглавие")
@@ -44,7 +44,7 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testFma_2()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100/1");
         $record->add(100, "Field100/2");
         $this->assertEquals(2, count($record->fields));
@@ -58,7 +58,7 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testGetField_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100");
         $record->add(200)
             ->add('a', "Заглавие")
@@ -77,7 +77,7 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testGetField_2()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100/1");
         $record->add(100, "Field100/2");
         $this->assertEquals(2, count($record->fields));
@@ -94,7 +94,7 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testGetFields_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->add(100, "Field100/1");
         $record->add(100, "Field100/2");
         $this->assertEquals(2, count($record->fields));
@@ -108,16 +108,16 @@ class MarcRecordTest extends PHPUnit_Framework_TestCase
 
     public function testIsDeleted_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $this->assertFalse($record->isDeleted());
 
-        $record->status |= Irbis\LOGICALLY_DELETED;
+        $record->status |= Nerpa\LOGICALLY_DELETED;
         $this->assertTrue($record->isDeleted());
     }
 
     public function testToString_1()
     {
-        $record = new Irbis\MarcRecord();
+        $record = new Nerpa\MarcRecord();
         $record->mfn = 123;
         $record->version = 234;
         $record->status = 345;
